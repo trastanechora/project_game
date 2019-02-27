@@ -50,12 +50,12 @@ function keyDown(e) {
     } else if (e.keyCode === 37) {
         key.left = true;
     }
-    if (e.keyCode === 38) {
+    if (e.keyCode === 38 && shipPos.y === 495) { // && 
+        //console.log(shipPos.y);
         key.up = true;
-    } else if (shipPos.y <= 470) {
-        if (e.keyCode === 40) {
-            key.down = true;
-        }
+        //setTimeout(function() { pressed = false }, 200);
+    } else if (e.keyCode === 40) {   
+        key.down = true;
     }
 }
 
@@ -99,8 +99,17 @@ function moveShip() {
     ship.style.top = shipPos.y + 'px';
 }
 
+// gravitation = () => {
+//     shipPos.y += 5
+// }
+
 gravitation = () => {
-    shipPos.y += 5
+    if (shipPos.y < 495){
+        shipPos.y +=5
+    } else if (shipPos.y === 495){
+        shipPos.y -= 4
+    }
+    //shipPos.y += 5
 }
 
 document.addEventListener('keydown', keyDown, false);

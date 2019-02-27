@@ -1,14 +1,50 @@
-
 var myGamePiece;
-var myObstacle;
+var myGamePiece;
+var myObstacle = [];
+// var myObstacle
+//var myBoundaries;
+var musuhAttack;
 
 function startGame() {
-    myGamePiece = new component(10, 20, "red", 10, 120);
-    myObstacle  = new component(10, 200, "green", 300, 120);    
+    myGamePiece = new component(100, 100, "red", 500, 350, 2000);
+    let minimal = 10000
+    let indeks = 0
+    for (i=0; i<10; i++){
+        y = Math.floor(500*Math.random())
+        x = Math.floor(1100*Math.random())
+        myObstacle.push(new component(30, 30, `blue`, x+75, y+75, 200));
+        // console.log(myObstacle[i].x, myObstacle[i].y)
+        // jarak = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+        // console.log(jarak, i)
+        // if (jarak < minimal){
+        //     minimal = jarak;
+        // }
+    }
+    musuhAttack = new component(40, 40, `black`, x+75, y+75, 1000);
+    }
+    // console.log(minimal, i)
     myGameArea.start();
 }
+// myObstacle.map((value)=>console.log(value.x))
+
+
+function cariTerdekat(){
+    let minimal = 0;
+    let indeks;
+    for (i=0; i<myObstacle.length; i++){
+        jarak = Math.sqrt(Math.pow(myObstacle[i].x, 2) + Math.pow(myObstacle[i].y, 2))
+        if (jarak < minimal){
+            minimal = jarak
+        }
+    }
+    // console.log(indeks, Math.floor(minimal))
+    return Math.floor(minimal)
+}
+
+console.log(cariTerdekat())
 
 var myGameArea = {
+    
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = 1300;
@@ -26,124 +62,69 @@ var myGameArea = {
     }
 }
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, point) {
     this.width = width;
     this.height = height;
     this.speedX = 0;
     this.speedY = 0;    
     this.x = x;
-    this.y = y;    
+    this.y = y;
+    this.point = point;
     this.update = function() {
         ctx = myGameArea.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
-    this.crashWith = function(otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
-        }
-        return crash;
-    }
 }
 
 function updateGameArea() {
-    if (myGamePiece.crashWith(myObstacle)) {
-        myGameArea.stop();
-    } else {
-        myGameArea.clear();
-        myObstacle.update();
-        myGamePiece.x += myGamePiece.speedX;
-        myGamePiece.y += myGamePiece.speedY;    
-        myGamePiece.update();
-    }
+    myGameArea.clear();
+    // myObstacle[0].update();
+    // myObstacle[1].update();
+    updated = myObstacle.map((value) => value.update())
+    //musuhAttack.update()
+    myGamePiece.x += myGamePiece.speedX;
+    //console.log(myGamePiece.x)
+    myGamePiece.y += myGamePiece.speedY;    
+    myGamePiece.update();
 }
 
-function moveup() {
-    myGamePiece.speedY = -1; 
-}
-
-function movedown() {
-    myGamePiece.speedY = 1; 
-}
-
-function moveleft() {
-    myGamePiece.speedX = -1; 
-}
-
-function moveright() {
-    myGamePiece.speedX = 1; 
-}
-
-function clearmove() {
-    myGamePiece.speedX = 0; 
-    myGamePiece.speedY = 0; 
-}
-
-function gravitation() {
-    myGamePiece.speedY = 1; 
-}
-
-document.addEventListener('keydown', keyDown, false);
-document.addEventListener('keyup', keyUp, false);
 
 function loop() {
-    gravitation();
-    move()
     setTimeout(loop, 1000 / 60);
 }
-
-var key = {
-    right: false,
-    left: false,
-    up: false,
-    down: false
+function musuh(){
+    y = Math.floor(500*Math.random())
+    x = Math.floor(1100*Math.random())
+    musuhAttack = new component(40, 40, `black`, x+75, y+75, 1000);
 }
 
-function keyUp(e) {
-    if (e.keyCode === 39) {
-        key.right = false;
-    } else if (e.keyCode === 37) {
-        key.left = false;
-    }
-    if (e.keyCode === 38) {
-        key.up = false;
-    } else if (e.keyCode === 40) {
-        key.down = false;
-    }
-}
 
-function keyDown(e) {
-    if (e.keyCode === 39) {
-        key.right = true;
-    } else if (e.keyCode === 37) {
-        key.left = true;
-    }
-    if (e.keyCode === 38) {
-        key.up = true;
-    } else if (e.keyCode === 40) {
-        key.down = true;
-    }
-}
 
-var speed = 2
-function move() {
-    if (key.right === true) {
-        myGamePiece.x += speed;
-    } else if (key.left === true) {
-        myGamePiece.x -= speed;
-    }
-    if (key.up === true) {
-        myGamePiece.y -= speed;
-    } else if (key.down === true) {
-        myGamePiece.y += speed;
-    }
-}
+//Command:
+// help : list petunjuk permainan
+// getResource : mendapatkan Resource terdekat, setelah diambil akan hilang
+// backHome : auto abis mendapatkan Resource terdekat
+// buySoldier(n) : membeli Soldier (jika uang ada)
+// buyPekerja(n) : membeli Pekerja (jika uang ada)
+// buyHome(n) : membeli rumah
+// upgradeHome : meningkatkan ketahanan Home(ganti warna aja)
+// Attack : menyerang musuh, money bakal berkurang
+
+// kalo command gak ada, invalid command
+
+// tambahan:
+// Money : menampilkan jumlah uang yang dimiliki
+
+
+// var keSana = function(){
+//     perintah keSana
+// }
+
+// var keSini = function(callback){
+//     setTimeout(function(){
+//         callback(fungsi keSana);
+//     }), waktuDelay;
+// }
+
+// keSini(keSana)

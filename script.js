@@ -26,6 +26,8 @@ function startGame() {
     myGameArea.start();
 }
 
+
+
 var myGameArea = {
     canvas : document.createElement("canvas"),
     start : function() {
@@ -34,9 +36,7 @@ var myGameArea = {
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
-        // loop2();
         loop();
-        // move_minion_to_resource()
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -87,28 +87,29 @@ function updateGameArea() {
 }
 
 function loop() {
-    move_minion_to_resource(0)
-    console.log(myGamePiece.point)
-    // loop2()
-    command = document.getElementById('input-cmd').value
-    document.getElementById('response-cmd').innerHTML = ">>> " + command;
-    // console.log(command)
-    // execute_command(command);
+    // console.log(document.getElementsByClassName('result'))
+    document.getElementsByClassName('result')[0].innerHTML = myBase.point
+    move_minion_to_resource(3)
+    // console.log(myGamePiece.point + " | " + myBase.point)
+    // document.getElementById('result').innerHTML = "abc";
+    // document.getElementById('result').innerHTML = int(myBase.point);
+    // command = document.getElementById('input-cmd').value
+    // document.getElementById('response-cmd').innerHTML = ">>> " + command;
     setTimeout(loop, 10);
 }
 
-loop2 = () => {
-    if (myGamePiece.point <= 50) {
-        move_minion_to_resource(0);
-        myGamePiece.point = myResource[0].point - 50;
-    } else {
-        move_minion_to_base()
-        myBase.point = myGamePiece.point - 50
-    }
-    // move_minion_to_base()
-    setTimeout(loop2, 100);
+// loop2 = () => {
+//     if (myGamePiece.point <= 50) {
+//         move_minion_to_resource(3);
+//         // myGamePiece.point = myResource[3].point - 50;
+//     } else {
+//         move_minion_to_base()
+//         myBase.point = myGamePiece.point - 50
+//     }
+//     // move_minion_to_base()
+//     setTimeout(loop2, 100);
     
-} 
+// } 
 
 
 var speed = 1
@@ -232,11 +233,12 @@ function onTestChange(event) {
 
     // If the user has pressed enter
     if (key == 13) {
-        x = document.getElementById('input-cmd').value
+        // x = document.getElementById('input-cmd').value
         // console.log("test " + x + ", debugging!")
-        execute_command(x);
-        document.getElementById("input-cmd").value = "";
-        return true;
+        // execute_command(x);
+        // document.getElementById("input-cmd").value = "";
+        // return true;
+        console.log("ok")
     }
 }
 
@@ -252,3 +254,4 @@ execute_command = (command) => {
     }
     // console.log("executed")
 }
+

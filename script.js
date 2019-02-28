@@ -25,10 +25,28 @@ function startGame() {
 
     myGameArea.start();
 }
+// myObstacle.map((value)=>console.log(value.x))
+
+
+function cariTerdekat(){
+    let minimal = 0;
+    let indeks;
+    for (i=0; i<myObstacle.length; i++){
+        jarak = Math.sqrt(Math.pow(myObstacle[i].x, 2) + Math.pow(myObstacle[i].y, 2))
+        if (jarak < minimal){
+            minimal = jarak
+        }
+    }
+    // console.log(indeks, Math.floor(minimal))
+    return Math.floor(minimal)
+}
+
+console.log(cariTerdekat())
 
 
 
 var myGameArea = {
+    
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = 1800;
@@ -178,12 +196,6 @@ move_minion_to_base = () => {
     }  
 }
 
-var key = {
-    right: false,
-    left: false,
-    up: false,
-    down: false
-}
 
 // var speed = 5
 function move() {

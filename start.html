@@ -5,7 +5,7 @@
   <style>
   canvas {
     border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
+    background-color: #0EAD00;
     display: block;
     width: 100%;
     height: 100%;
@@ -16,17 +16,23 @@
 <body onload="startGame()">
   <div class="row">
     <div id="score"></div>
-    <div>
-      <form action="#" style="width:100%">
-        <!-- <input type="text" style="width:100%" id="input-cmd" onkeypress="onTestChange(event);"> -->
-        <textarea id="input-cmd" onkeypress="onTestChange(event);"></textarea>
-        <!-- <input type="submit"> -->
-      </form>
-    </div>
-    <div>
-      <div id="response-cmd"></div>
     </div>
   </div>
+
+  <div class="details" id="details">
+    <!-- <p>Detected language: <br> <button type="button" class="btn btn-warning">{{ word1.src }}</button></p>
+    <p>Translated to: <br> <button type="button" class="btn btn-warning">{{ word1.dest }}</button></p> -->
+    <p>Timer: <h4 class="timer"></h4></p>
+    <p>Gold: <h4 class="result"></h4></p>
+        <!-- <p class="sample-word">Example of similar meaning words:</p>
+        <p class="sample-word"><i><strong>{{ word }}</strong></i></p> -->
+        <p>Buy settler: <br> <button type="button" class="btn btn-warning">75 Gold</button></p>
+        <p>Buy Soldier: <br> <button type="button" class="btn btn-warning">150 Gold</button></p>
+    <br>
+        <!-- <p class="sample-word">Example of similar origin words:</p>
+        <p class="sample-word"><i><strong>{{ word }}</strong></i></p> -->
+
+</div>
   <script src="script.js"></script>
 </body>
 </html>

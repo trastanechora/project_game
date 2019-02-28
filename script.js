@@ -22,11 +22,11 @@ function startGame() {
     
     //mySoldier = new component(7, 7, "red", 720, 300, 0);
     for (i=0; i<3; i++){
-        soldier = new component(7, 7, "red", 700+i*15, 320, 0);
+        soldier = new component(7, 7, "white", 700+i*15, 320, 0);
         mySoldier.push(soldier)
     }
 
-    myEnemy = new component(10, 10, "green", 800, 500, 75);
+    myEnemy = new component(10, 10, "red", 800, 500, 75);
 
     for (i=0; i<4; i++){
         y = Math.floor(500*Math.random())
@@ -53,9 +53,7 @@ var myGameArea = {
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 20);
-        // loop2();
         loop();
-        // move_minion_to_resource()
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -112,6 +110,7 @@ function updateGameArea() {
 }
 
 // fungsi menjalankan pergerakan di dalam games
+let detik = 0;
 function loop() {
     // if (myGamePiece[0] !== null){
     //     move_minion_to_resource(0);
@@ -132,10 +131,13 @@ function loop() {
     move_minion_to_resource(0)
     move_minion_to_resource(1)
     move_minion_to_resource(2)
+    document.getElementsByClassName("result")[0].innerHTML = myBase.point
+    detik = detik +1
+    document.getElementsByClassName("timer")[0].innerHTML = detik/100
 
     // loop2()
-    command = document.getElementById('input-cmd').value
-    document.getElementById('response-cmd').innerHTML = ">>> " + command;
+    // command = document.getElementById('input-cmd').value
+    // document.getElementById('response-cmd').innerHTML = ">>> " + command;
     // console.log(command)
     // execute_command(command);
     setTimeout(loop, 10);
@@ -260,7 +262,7 @@ move_enemy_to_base = () => {
             myBase.point -= 0.01;
         } 
     }  
-    // });
+    // }),80000;
 }
 
 move_enemy_to_base();
@@ -320,11 +322,12 @@ function onTestChange(event) {
 
     // If the user has pressed enter
     if (key == 13) {
-        x = document.getElementById('input-cmd').value
+        // x = document.getElementById('input-cmd').value
         // console.log("test " + x + ", debugging!")
-        execute_command(x);
-        document.getElementById("input-cmd").value = "";
-        return true;
+        // execute_command(x);
+        // document.getElementById("input-cmd").value = "";
+        // return true;
+        console.log("ok")
     }
 }
 

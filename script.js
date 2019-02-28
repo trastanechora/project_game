@@ -1,19 +1,37 @@
-var myGamePiece;
+// inisiasi variabel di game
+var myGamePiece = [];
 var myResource = [];
+var mySoldier = [];
+var myEnemy;
 var myBase;
 
+// fungsi untuk memulai games
 function startGame() {
     // myResource = new component(30, 30, "orange", 300, 70);
     myBase = new component(100, 100, "black", 700, 300, 0);
-    myGamePiece = new component(7, 7, "blue", 700, 300, 0);
+
+    // myGamePiece = new component(7, 7, "blue", 700, 300, 0);
+    
+    for (i=0; i<3; i++){
+        minion = new component(7, 7, "blue", 700+i*15, 300, 0);
+        myGamePiece.push(minion);
+    }
+    
     // myGamePiece = new component(10, 10, "blue", 300, 70);
     // myObstacle  = new component(10, 200, "green", 300, 120);   
+    
+    //mySoldier = new component(7, 7, "red", 720, 300, 0);
+    for (i=0; i<3; i++){
+        soldier = new component(7, 7, "red", 700+i*15, 320, 0);
+        mySoldier.push(soldier)
+    }
 
+    myEnemy = new component(10, 10, "green", 800, 500, 75);
 
     for (i=0; i<4; i++){
         y = Math.floor(500*Math.random())
         x = Math.floor(1100*Math.random())
-        ctx = new component(30, 30, "orange", x+50, y+50, 400)
+        ctx = new component(30, 30, "orange", x+50, y+50, 100) // nilai awal 400
         // ctx.font = "3px Arial";
         // ctx.fillText("H", 20, 20);
         myResource.push(ctx);
@@ -45,6 +63,7 @@ console.log(cariTerdekat())
 
 
 
+// fungsi untuk membuat area games
 var myGameArea = {
     
     canvas : document.createElement("canvas"),
@@ -64,6 +83,7 @@ var myGameArea = {
     }
 }
 
+// fungsi untuk membuat komponen dalam games
 function component(width, height, color, x, y, point) {
     this.width = width;
     this.height = height;
@@ -96,30 +116,54 @@ function component(width, height, color, x, y, point) {
     }
 }
 
+// fungsi untuk mengupdate variabel di games ketika games di reset
 function updateGameArea() {
     myGameArea.clear();
     myBase.update();
     // myResource.update();
-    myGamePiece.update();
+    // myGamePiece.update()
+    // mySoldier.update()
+    myEnemy.update();
+    soldierUpdated = mySoldier.map((solval) => solval.update());
+    minionUpdated = myGamePiece.map((minval) => minval.update());
     updated = myResource.map((value) => value.update())
 }
 
+// fungsi menjalankan pergerakan di dalam games
 function loop() {
-    // console.log(document.getElementsByClassName('result'))
+    // if (myGamePiece[0] !== null){
+    //     move_minion_to_resource(0);
+    // } else {}
+    // if (myGamePiece[1] !== null){
+    //     move_minion_to_resource(1);
+    // } else {}
+    // if (myGamePiece[2] !== null){
+    //     move_minion_to_resource(2);
+    // } else {}
+    // if (myGamePiece[3] !== null){
+    //     move_minion_to_resource(3);
+    // } else {}
+    // if (myGamePiece[4] !== null){
+    //     move_minion_to_resource(4);
+    // } else {}
+
+    move_minion_to_resource(0)
+    move_minion_to_resource(1)
+    move_minion_to_resource(2)
     document.getElementsByClassName('result')[0].innerHTML = myBase.point
-    move_minion_to_resource(3)
-    // console.log(myGamePiece.point + " | " + myBase.point)
-    // document.getElementById('result').innerHTML = "abc";
-    // document.getElementById('result').innerHTML = int(myBase.point);
+
+    // loop2()
     // command = document.getElementById('input-cmd').value
     // document.getElementById('response-cmd').innerHTML = ">>> " + command;
+    // console.log(command)
+    // execute_command(command);
     setTimeout(loop, 10);
 }
 
 // loop2 = () => {
 //     if (myGamePiece.point <= 50) {
-//         move_minion_to_resource(3);
-//         // myGamePiece.point = myResource[3].point - 50;
+//         move_minion_to_resource(0);
+//         myGamePiece[0].point = myResource[0].point - 50;
 //     } else {
 //         move_minion_to_base()
 //         myBase.point = myGamePiece.point - 50
@@ -133,108 +177,158 @@ function loop() {
 var speed = 1
 move_minion_to_resource = (i) => {
     // console.log(myResource[i])
-    if (myGamePiece.point < 50) {
-        if (myGamePiece.x < myResource[i].x) {
-            if (myGamePiece.x != myResource[i].x) {
-                myGamePiece.x += speed;
+    if (myGamePiece[i].point < 50) {
+        if (myGamePiece[i].x < myResource[i].x) {
+            if (myGamePiece[i].x != myResource[i].x) {
+                myGamePiece[i].x += speed;
             }
         } else {
-            if (myGamePiece.x != myResource[i].x) {
-                myGamePiece.x -= speed;
+            if (myGamePiece[i].x != myResource[i].x) {
+                myGamePiece[i].x -= speed;
             }
         }
 
-        if (myGamePiece.y < myResource[i].y) {
-            if (myGamePiece.y != myResource[i].y) {
-                myGamePiece.y += speed;
+        if (myGamePiece[i].y < myResource[i].y) {
+            if (myGamePiece[i].y != myResource[i].y) {
+                myGamePiece[i].y += speed;
             }
         } else {
-            if (myGamePiece.y != myResource[i].y) {
-                myGamePiece.y -= speed;
+            if (myGamePiece[i].y != myResource[i].y) {
+                myGamePiece[i].y -= speed;
             }
         }
         
-        if (myGamePiece.y == myResource[i].y && myGamePiece.x == myResource[i].x) {
-            if (myGamePiece.point < 50){
+        if (myGamePiece[i].y == myResource[i].y && myGamePiece[i].x == myResource[i].x) {
+            if (myGamePiece[i].point < 50){
                 myResource[i].point -= 0.1;
-                myGamePiece.point +=0.1;
+                myGamePiece[i].point +=0.1;
+
+                //by Kar
+                if (myResource[i].point < 0){
+                    myResource.splice(i,1);
+                    y = Math.floor(500*Math.random())
+                    x = Math.floor(1100*Math.random())
+                    ctx = new component(30, 30, "orange", x+50, y+50, 100) // nilai awal 400
+                    myResource.push(ctx);
+                    // i = i+1
+                    // myResource[i] = myResource[i+1]
+                    // move_minion_to_base()
+                }
             } else {
-                move_minion_to_base()
+                move_minion_to_base(i)
             }
         }
     } else {
-        move_minion_to_base()
+        move_minion_to_base(i)
     }
 }
 
-move_minion_to_base = () => {
-    if (myGamePiece.x < myBase.x) {
-        if (myGamePiece.x != myBase.x) {
-            myGamePiece.x += speed;
+move_minion_to_base = (i) => {
+    if (myGamePiece[i].x < myBase.x) {
+        if (myGamePiece[i].x != myBase.x) {
+            myGamePiece[i].x += speed;
         }
     } else {
-        if (myGamePiece.x != myBase.x) {
-            myGamePiece.x -= speed;
+        if (myGamePiece[i].x != myBase.x) {
+            myGamePiece[i].x -= speed;
         }
     }
 
-    if (myGamePiece.y < myBase.y) {
-        if (myGamePiece.y != myBase.y) {
-            myGamePiece.y += speed;
+    if (myGamePiece[i].y < myBase.y) {
+        if (myGamePiece[i].y != myBase.y) {
+            myGamePiece[i].y += speed;
         }
     } else {
-        if (myGamePiece.y != myBase.y) {
-            myGamePiece.y -= speed;
+        if (myGamePiece[i].y != myBase.y) {
+            myGamePiece[i].y -= speed;
         }
     }
 
-    if (myGamePiece.x == myBase.x && myGamePiece.y == myBase.y) {
-        if (myGamePiece.point >= 0) {
+    if (myGamePiece[i].x == myBase.x && myGamePiece[i].y == myBase.y) {
+        if (myGamePiece[i].point >= 0) {
             myBase.point += 50;
-            myGamePiece.point -=50;
+            myGamePiece[i].point -=50;
         } 
     }  
 }
 
+move_enemy_to_base = () => {
+    // setTimeout(function(){
+    if (myEnemy.x < myBase.x) {
+        if (myEnemy.x != myBase.x) {
+            myEnemy.x += speed;
+        }
+    } else {
+        if (myEnemy.x != myBase.x) {
+            myEnemy.x -= speed;
+        }
+    }
+
+    if (myEnemy.y < myBase.y) {
+        if (myEnemy.y != myBase.y) {
+            myEnemy.y += speed;
+        }
+    } else {
+        if (myEnemy.y != myBase.y) {
+            myEnemy.y -= speed;
+        }
+    }
+
+    if (myEnemy.x == myBase.x && myEnemy.y == myBase.y) {
+        if (myEnemy.point >= 0) {
+            myBase.point -= 0.01;
+        } 
+    }  
+    // });
+}
+
+move_enemy_to_base();
+
+var key = {
+    right: false,
+    left: false,
+    up: false,
+    down: false
+}
 
 // var speed = 5
 function move() {
     if (key.right === true) {
-        if (myGamePiece.x >= 1290) {
-            myGamePiece.x = 1290;
+        if (myGamePiece[i].x >= 1290) {
+            myGamePiece[i].x = 1290;
         } else {
-            myGamePiece.x += speed;
+            myGamePiece[i].x += speed;
         }
     } else if (key.left === true) {
-        if (myGamePiece.x <= 0) {
-            myGamePiece.x = 0;
+        if (myGamePiece[i].x <= 0) {
+            myGamePiece[i].x = 0;
         } else {
-            myGamePiece.x -= speed;
+            myGamePiece[i].x -= speed;
         }
     }
     if (key.up === true) {
-        if (myGamePiece.y <= 3) {
-            myGamePiece.y = 3;
+        if (myGamePiece[i].y <= 3) {
+            myGamePiece[i].y = 3;
         } else {
-            myGamePiece.y -= speed;
+            myGamePiece[i].y -= speed;
         }
     } else if (key.down === true) {
-        if (myGamePiece.y >= 690) {
-            myGamePiece.y = 690;
+        if (myGamePiece[i].y >= 690) {
+            myGamePiece[i].y = 690;
         } else {
-            myGamePiece.y += speed;
+            myGamePiece[i].y += speed;
         }
     }
 }
 
 function gravitation() {
-    if (myGamePiece.y >= 690) {
-        myGamePiece.y = 690;
+    if (myGamePiece[i].y >= 690) {
+        myGamePiece[i].y = 690;
     } else {
         if (key.up === false) {
-            myGamePiece.speedY = 5;
+            myGamePiece[i].speedY = 5;
         } else {
-            myGamePiece.speedY = 0;
+            myGamePiece[i].speedY = 0;
         }
     }
 }
@@ -265,5 +359,19 @@ execute_command = (command) => {
         // console.log("executed")
     }
     // console.log("executed")
-}
+// add game piece
+    // if (command == "add_game_piece") {
+    //     while (myGamePiece.length<6){
+    //         minion = new component(7, 7, "blue", 700, 300, 0);
+    //         myGamePiece.push(minion);
+    //     }
+    // }
 
+// add soldier
+    // if (command == "add_soldier"){
+    //     while (mySoldier.length<6){
+    //         soldier = new component(7, 7, "red", 700, 300, 0);
+    //         mySoldier.push(soldier);
+    //     }
+    // }
+}

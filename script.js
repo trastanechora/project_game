@@ -15,18 +15,15 @@ function startGame() {
     for (i=0; i<3; i++){
         minion = new component(7, 7, "blue", 700+i*15, 300, 0);
         myGamePiece.push(minion);
-    }
-    
-    // myGamePiece = new component(10, 10, "blue", 300, 70);
-    // myObstacle  = new component(10, 200, "green", 300, 120);   
+    }  
     
     //mySoldier = new component(7, 7, "red", 720, 300, 0);
     for (i=0; i<3; i++){
-        soldier = new component(7, 7, "red", 700+i*15, 320, 0);
+        soldier = new component(7, 7, "white", 700+i*15, 320, 0);
         mySoldier.push(soldier)
     }
 
-    myEnemy = new component(10, 10, "green", 800, 500, 75);
+    myEnemy = new component(10, 10, "red", 800, 500, 75);
 
     for (i=0; i<4; i++){
         y = Math.floor(500*Math.random())
@@ -43,25 +40,21 @@ function startGame() {
 
     myGameArea.start();
 }
-// myObstacle.map((value)=>console.log(value.x))
 
-
-function cariTerdekat(){
-    let minimal = 0;
-    let indeks;
-    for (i=0; i<myObstacle.length; i++){
-        jarak = Math.sqrt(Math.pow(myObstacle[i].x, 2) + Math.pow(myObstacle[i].y, 2))
-        if (jarak < minimal){
-            minimal = jarak
-        }
-    }
+// function cariTerdekat(){
+//     let minimal = 0;
+//     let indeks;
+//     for (i=0; i<myObstacle.length; i++){
+//         jarak = Math.sqrt(Math.pow(myObstacle[i].x, 2) + Math.pow(myObstacle[i].y, 2))
+//         if (jarak < minimal){
+//             minimal = jarak
+//         }
+//     }
     // console.log(indeks, Math.floor(minimal))
-    return Math.floor(minimal)
-}
+    // return Math.floor(minimal)
+// }
 
-console.log(cariTerdekat())
-
-
+// console.log(cariTerdekat())
 
 // fungsi untuk membuat area games
 var myGameArea = {
@@ -130,6 +123,7 @@ function updateGameArea() {
 }
 
 // fungsi menjalankan pergerakan di dalam games
+let detik = 0;
 function loop() {
     // if (myGamePiece[0] !== null){
     //     move_minion_to_resource(0);
@@ -150,7 +144,9 @@ function loop() {
     move_minion_to_resource(0)
     move_minion_to_resource(1)
     move_minion_to_resource(2)
-    document.getElementsByClassName('result')[0].innerHTML = myBase.point
+    document.getElementsByClassName("result")[0].innerHTML = myBase.point
+    detik = detik +1
+    document.getElementsByClassName("timer")[0].innerHTML = detik/100
 
     // loop2()
     // command = document.getElementById('input-cmd').value
@@ -279,7 +275,7 @@ move_enemy_to_base = () => {
             myBase.point -= 0.01;
         } 
     }  
-    // });
+    // }),80000;
 }
 
 move_enemy_to_base();
